@@ -1,16 +1,17 @@
 const inputsText = document.querySelectorAll(".input");
 const form = document.querySelector(".form");
+const submit = document.querySelector(".submit")
 
 form.addEventListener("submit", (event) => {
     event.preventDefault();
 
-    let todosPreenchidos = true;
+    let allFilled = true;
 
     inputsText.forEach(input => {
         const advice = input.nextElementSibling;
 
         if (input.value === "") { 
-            todosPreenchidos = false;
+            allFilled = false;
             input.classList.add("blank-input");
             if (!advice || !advice.classList.contains("advice")) {
                 const newAdvice = document.createElement("p");
@@ -18,13 +19,10 @@ form.addEventListener("submit", (event) => {
                 newAdvice.classList.add("advice");
                 input.insertAdjacentElement('afterend', newAdvice);
             }
-        } else {
-            input.classList.remove("blank-input");
-            removerMensagemErro(input);
-        }
+        } 
     });
 
-    if (todosPreenchidos) {
+    if (allFilled) {
         form.submit();
     }
 });
@@ -36,12 +34,12 @@ inputsText.forEach(input => {
         } else {
             input.classList.add("filled-input");
             input.classList.remove("blank-input");
-            removerMensagemErro(input);
+            removeError(input);
         }
     });
 });
 
-function removerMensagemErro(input) {
+function removeError(input) {
     const advice = input.nextElementSibling;
     if (advice && advice.classList.contains("advice")) {
         advice.remove();
